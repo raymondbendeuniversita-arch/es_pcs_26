@@ -1,0 +1,3 @@
+Ho usato l'ai per gestire un warning del compilatore [-Wsign-compare], ho risolto usando std::size_t
+
+Inoltre l'ho usato per farmi generare del codice per il main per fare diversi test dei metodi implementati
