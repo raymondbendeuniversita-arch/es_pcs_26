@@ -1,45 +1,30 @@
 #include <iostream>
 #include <string>
+#include "CircuitSolver.hpp"
 
-#include "CircuitReader.hpp"
-#include "SolverDFS.hpp"      
-#include "SolverDePina.hpp"
-#include "timecounter.h"
+int main(int argc, char* argv[]) {
+    std::string filename = "netlist.txt";
 
-
-int main(int argc, const char *argv[]) {
+    // permette di passare il nome del file netlist da riga di comando:
+    if (argc > 1) {
+        filename = argv[1];
+    }
 	
-    timecounter tc; 
+    CircuitSolver solver;
 
-    if (argc < 2) {
-        std::cout << "Il file non è stato passato correttamente." << std::endl;
-        return 1; 
+    // lettura della netlist:
+    if (!solver.read_netlist(filename)) {
+        std::cerr << "Impossibile continuare senza un file di netlist valido.\n";
+        return 1;
     }
 
-    std::string nomefile = argv[1];
-
-    CircuitReader reader;
-
-    if (!reader.read_file(nomefile)) {
-        return 1;  // se fallisce la lettura del circuito mi fermo subito 
-    }
-
-    
-    std::cout << "------------------------------------------------------------------" << std::endl;
-
-    SolverDFS soluzione_dfs;
-    
-    soluzione_dfs.solve(reader);  // questa funzione stampa già i risultati internamente
-    
-
-    std::cout << "------------------------------------------------------------------" << std::endl;
-
-    SolverDePina soluzione_depina;
-    
-    soluzione_depina.solve(reader);  // anche questa stampa già i risultati internamente
-    
+    // risoluzione tramite DFS:
+    solver.solve_circuit_dfs();
 	
+	std::cout << "\n";
 
+    // risoluzione tramite algoritmo di De Pina:
+    solver.solve_circuit_depina();
 
     return 0;
 }

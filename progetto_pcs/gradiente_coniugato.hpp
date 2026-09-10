@@ -10,7 +10,6 @@ Eigen::VectorXd gradiente_coniugato(const Eigen::MatrixXd& A, const Eigen::Vecto
 	Eigen::VectorXd p = res;
 	
 	int k = 0;  // inizializzo le iterazioni
-	
 	while (res.norm()>tol && k<max_iter) {    // condizioni di arresto sulla norma del residuo e il numero massimo di iterazioni che vogliamo 
 		Eigen::VectorXd Ap = A * p;   // il prodotto matrice vettore è costoso: lo calcolo solo una volta all'inizio dell'itezione
 	
@@ -22,10 +21,9 @@ Eigen::VectorXd gradiente_coniugato(const Eigen::MatrixXd& A, const Eigen::Vecto
 		double beta = p.dot(A * res) / p.dot(Ap);
 			
 		p = res - beta * p;   // aggiorno p
+		
 		k++;   // iterazione
 	}
-	
-	std::cout << "Numero iterazioni eseguite: "<< k << "\n";
 	std::cout << "Residuo finale: " << res.norm() << "\n";
 	
 	return x;   // ritorno la soluzione
